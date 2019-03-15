@@ -1,37 +1,33 @@
 import React, { Component } from 'react';
 import Chart from '../components/Chart';
-import {monthScaleSelect, yearScaleSelect, dayScaleSelect} from "../store/actions";
+import {fetchScale} from "../store/actions";
 import {connect} from "react-redux";
 
-import btcDay from "../btc-day";
-import btcYear from "../btc-year";
-import btcMonth from "../btc-month";
-
-
 class ChartContainer extends Component {
+    componentDidMount() {
+        this.props.fetchScale(this.props.scale)
+    }
     render() {
-        const btc = {
-            day: btcDay,
-            year: btcYear,
-            month: btcMonth
-        };
         return (
-            <Chart data={btc[this.props.scale]} scale={this.props.scale}/>
+            <Chart data={this.props.data} scale={this.props.scale}
+                   fetchData={this.props.fetchScale}
+                   hasError={this.props.hasError} isLoading={this.props.isLoading}
+            />
         );
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        //data: state.data,
-        scale: state.selected
+        scale: state.selected,
+        data: state.data,
+        isLoading: state.isLoading,
+        hasError: state.hasError
     };
 };
 
 const mapDispatchToProps = {
-    monthScaleSelect,
-    yearScaleSelect,
-    dayScaleSelect
+    fetchScale
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChartContainer);

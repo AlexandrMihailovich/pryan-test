@@ -1,30 +1,16 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import { scaleReducer } from './reducers';
 
-import btcMonth from '../btc-month';
-//import btcDay from '../btc-day';
-//import btcYear from '../btc-year';
-
 const initialState = {
-    data: btcMonth,
-    radios: [
-        {
-            name: 'scale',
-            label: 'Year',
-            value: 'year'
-        },
-        {
-            name: 'scale',
-            label: 'Month',
-            value: 'month'
-        },
-        {
-            name: 'scale',
-            label: 'Day',
-            value: 'day'
-        }
-    ],
-    selected: 'month'
+    data: false,
+    selected: 'month',
+    isLoading: true,
+    hasError: true
+
 };
 
-export default createStore(scaleReducer, initialState)
+export default createStore(
+    scaleReducer,
+    initialState,
+    applyMiddleware(thunk))

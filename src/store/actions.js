@@ -1,28 +1,51 @@
-export function yearScaleSelect(id) {
+export function dataIsLoading(bool) {
     return {
-        type: 'YEAR_SCALE',
-        id
+        type: 'DATA_IS_LOADING',
+        isLoading: bool
     };
 }
 
-export function monthScaleSelect(id) {
+export function dataHasErrored(bool) {
     return {
-        type: 'MONTH_SCALE',
-        id
+        type: 'DATA_HAS_ERROR',
+        hasError: bool
     };
 }
 
-export function dayScaleSelect(id) {
+export function btcFetchDataSuccess(data) {
     return {
-        type: 'DAY_SCALE',
-        id
+        type: 'BTC_FETCH_DATA_SUCCESS',
+        data
     };
 }
+
+
 
 export function changeScale(select) {
-    console.log(select);
     return {
         type: 'CHANGE_SCALE',
         select
+    };
+}
+
+export function fetchScale(scale) {
+
+    return (dispatch) => {
+        dispatch(dataIsLoading(true));
+        dispatch(changeScale(scale));
+        let url = "http://localhost:3000/btc-"+scale+".json"
+        fetch(url)
+            .then((response) => {
+                if (!response.ok) {
+                    dispatch(dataHasErrored(true));
+                    throw Error(response.statusText);
+                }
+                return response.json();
+            })
+            .then((data) => {
+                dispatch(btcFetchDataSuccess(data))
+                dispatch(dataIsLoading(false));
+            })
+            .catch(() => dispatch(dataHasErrored(true)));
     };
 }

@@ -1,25 +1,23 @@
 export function scaleReducer(state = false, action) {
     switch (action.type) {
-        case 'DAY_SCALE':
+        case 'DATA_IS_LOADING':
             return {
                 ...state,
-                cart: state.cart.indexOf(action.id) === -1
-                    ? [...state.cart, action.id]
-                    : state.cart.filter(item => action.id !== item)
+                isLoading: action.isLoading,
+                hasError: false
             };
-        case 'MONTH_SCALE':
+        case 'DATA_HAS_ERROR':
             return {
                 ...state,
-                cart: state.cart.indexOf(action.id) === -1
-                    ? [...state.cart, action.id]
-                    : state.cart.filter(item => action.id !== item)
+                isLoading: false,
+                hasError: action.hasError
             };
-        case 'YEAR_SCALE':
+        case 'BTC_FETCH_DATA_SUCCESS':
             return {
                 ...state,
-                cart: state.cart.indexOf(action.id) === -1
-                    ? [...state.cart, action.id]
-                    : state.cart.filter(item => action.id !== item)
+                data: action.data,
+                isLoading: false,
+                hasError: false
             };
         case 'CHANGE_SCALE':
             return {
