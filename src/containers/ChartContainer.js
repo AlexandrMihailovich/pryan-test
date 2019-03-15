@@ -10,7 +10,6 @@ class ChartContainer extends Component {
     render() {
         return (
             <Chart data={this.props.data} scale={this.props.scale}
-                   fetchData={this.props.fetchScale}
                    hasError={this.props.hasError} isLoading={this.props.isLoading}
             />
         );
