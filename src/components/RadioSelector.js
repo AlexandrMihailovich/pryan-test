@@ -5,18 +5,22 @@ import './RadioSelector.css'
 const radio = cn('radio');
 
 class Radio extends Component {
-    item(index) {
+    item(item, index) {
         return (
-            <div className={radio('btn')}>
-                <input type="radio" id={this.props.name + '-' + index} name={this.props.name}/>
-                <label htmlFor={this.props.name + '-' + index}>radio</label>
+            <div className={radio('btn')} key={index}>
+                <input type="radio" id={item.name + '-' + index}
+                       name={item.name} value={item.value}
+                       checked={item.value === this.props.selected}
+                       onChange={() => this.props.change(item.value)}
+                />
+                <label htmlFor={item.name + '-' + index}>{item.label}</label>
             </div>
         );
     }
     render() {
         return (
             <div className={radio('container')}>
-                {(new Array(this.props.count)).fill(0).map((i,index) => this.item(index))}
+                {(this.props.data.map((item, index) => this.item(item, index)))}
             </div>
         );
     }

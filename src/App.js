@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import Chart from './components/Chart';
-import Radio from './components/RadioSelector'
+import { Provider } from 'react-redux';
+
+import store from './store/store'
+
+import ChartContainer from './containers/ChartContainer';
+import RadioContainer from './containers/RadioContainer'
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Radio name={'space'} count={8}/>
-        <Chart/>
+        <Provider store={store}>
+          <RadioContainer/>
+          <ChartContainer/>
+        </Provider>
       </div>
     );
   }
