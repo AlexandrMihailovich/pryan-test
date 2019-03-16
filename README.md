@@ -1,3 +1,7 @@
+## Build
+[github.io](https://alexandrmihailovich.github.io/pryan-test/build/)
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
