@@ -33,7 +33,7 @@ export function fetchScale(scale) {
     return (dispatch) => {
         dispatch(dataIsLoading(true));
         dispatch(changeScale(scale));
-        let url = "http://localhost:3000/btc-"+scale+".json"
+        let url = "http://localhost:3000/btc-"+scale+".json";
         fetch(url)
             .then((response) => {
                 if (!response.ok) {
@@ -43,7 +43,7 @@ export function fetchScale(scale) {
                 return response.json();
             })
             .then((data) => {
-                dispatch(btcFetchDataSuccess(data))
+                dispatch(btcFetchDataSuccess(data));
                 dispatch(dataIsLoading(false));
             })
             .catch(() => dispatch(dataHasErrored(true)));
