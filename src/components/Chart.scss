@@ -1,0 +1,35 @@
+.chart {
+    position: relative;
+
+    .tooltip {
+        margin: 0;
+        padding: 5px;
+        background-color: rgb(255, 255, 255);
+        border: 1px solid rgb(204, 204, 204);
+        white-space: nowrap;
+
+        .tooltip-content {
+            border: none;
+            text-align: left;
+            margin: 0;
+            padding: 2px;
+        }
+        .tooltip-content_date {
+            border: none;
+            text-align: center;
+        }
+    }
+    .legend {
+        text-align: center;
+    }
+    .chart-loading {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        color: #fff;
+        padding-top: 230px;
+        box-sizing: border-box;
+    }
+}

@@ -1,0 +1,26 @@
+@import "scss/mixin";
+
+body {
+  font-family: Helvetica, "Segoe UI", "Roboto", "Oxygen",
+  "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  sans-serif;
+}
+
+.container {
+  width: 95%;
+  margin-top: 20px;
+  @include center-block();
+  .container-header {
+    font-size: 35px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  .container-select {
+    width: 300px;
+    @include center-block();
+  }
+  .container-chart {
+    margin-top: 20px;
+    @include center-block();
+  }
+}

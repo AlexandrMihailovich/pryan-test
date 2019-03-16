@@ -1,0 +1,39 @@
+@import "../scss/mixin";
+
+.radio-container{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  font-family: sans-serif;
+  border: 2px solid #0082fe;
+  @include border-radius(6px);
+  @include user-select(none);
+
+  .radio-btn{
+    border-right: 2px solid #0082fe;
+    overflow: hidden;
+    flex: 1;
+  }
+  .radio-btn:last-child{
+    border-right: 0;
+  }
+
+  .radio-btn {
+    label {
+      background-color: transparent;
+      color: #000;
+      display: block;
+      padding: 6px 12px;
+      text-align: center;
+    }
+    input {
+      display: none;
+    }
+    input:checked + label {
+      background-color: #0082fe;
+      color: #fff;
+    }
+  }
+}
+

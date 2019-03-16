@@ -2,13 +2,17 @@ import React, { PureComponent } from 'react';
 import {
     ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
+import { cn } from '@bem-react/classname';
+import './Chart.scss';
+import './LoadAnimation'
+import LoadAnimation from "./LoadAnimation";
+
+const chart = cn('chart');
 
 
 const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 ];
-
-
 
 export default class Chart extends PureComponent {
 
@@ -36,32 +40,31 @@ export default class Chart extends PureComponent {
         let date = new Date();
         date.setTime(this.props.data.Data[index].time * 1000);
         const formatters = {
-            day: () => date.getHours() + ':' + date.getMinutes() + ' ' + date.getDate(),
+            day: () => date.getHours() + ':' + date.getMinutes() + ' ' + date.getDate() + ' ' + monthNames[date.getMonth()],
             year: () => monthNames[date.getMonth()] + ' ' + date.getFullYear(),
             month: () => date.getDate() + ' ' + monthNames[date.getMonth()]
         };
         return formatters[this.props.scale]();
     }
 
-    CustomTooltip = ({ active, payload, label }) => {
-        console.log(active, payload, label);
+    renderTooltip = ({ active, payload, label }) => {
         if (active) {
+            const tooltip = cn('tooltip');
+
             let date = new Date();
             date.setTime(payload[0].payload.time * 1000);
+
+            let minutes = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+            let hours = (date.getHours() < 10 ? '0' : '') + date.getHours();
+            let fullDate = `${date.getDate()}.${date.getMonth()+1}.${date.getFullYear()}`;
+            let fullTime = `${hours}:${minutes}`;
             return (
-                <div className="recharts-custom-tooltip" style={{
-                    margin: "0px",
-                    padding: '1px',
-                    'background-color': 'rgb(255, 255, 255)',
-                    'border': '1px solid rgb(204, 204, 204)',
-                    'white-space': 'nowrap'}}>
-                    <p style={{margin: "0px",padding: '1px'}} className="intro">{`${date.getHours()}:${date.getMinutes()}`}</p>
-                    <p style={{margin: "0px",padding: '1px'}} className="intro">{`${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`}</p>
-                    <p style={{margin: "0px",padding: '1px'}} className="label">{`close: ${payload[0].payload.close}$`}</p>
-                    <p style={{margin: "0px",padding: '1px'}} className="label">{`open: ${payload[0].payload.open}$`}</p>
-                    <p style={{margin: "0px",padding: '1px'}} className="label">{`high: ${payload[0].payload.high}$`}</p>
-                    <p style={{margin: "0px",padding: '1px'}} className="label">{`low: ${payload[0].payload.low}$`}</p>
-                    <p style={{margin: "0px",padding: '1px'}} className="intro">{label}</p>
+                <div className={tooltip()}>
+                    {(() => {if(this.props.scale !== 'year')
+                        return (<p className={tooltip('content', {date:true})}>{fullTime}</p>)})()}
+                    <p className={tooltip('content', {date:true})}>{fullDate}</p>
+                    <p className={tooltip('content')}>{`High: ${payload[0].payload.high}$`}</p>
+                    <p className={tooltip('content')}>{`Low: ${payload[0].payload.low}$`}</p>
                 </div>
             );
         }
@@ -69,15 +72,31 @@ export default class Chart extends PureComponent {
         return null;
     };
 
+    renderLegend = (props) => {
+        const legend = cn('legend');
+        return (
+            <div className={legend()}>
+                <span>BTC to USD</span>
+            </div>
+        );
+    };
+
+    loading() {
+        return (
+            <div className={chart('loading')}>
+                <LoadAnimation/>
+            </div>);
+    }
+
     render() {
         if(!this.props.data) {
-            return (<div>loading...</div>);
+            return (<div><LoadAnimation/></div>);
         }
         if(this.props.hasError) {
             return (<div>Error!</div>);
         }
         return (
-            <div>
+            <div className={chart()}>
                 <ResponsiveContainer width="100%"
                                      height={600}>
                     <AreaChart
@@ -87,14 +106,19 @@ export default class Chart extends PureComponent {
                         }}
                     >
                         <CartesianGrid strokeDasharray="5 5" />
-                        <XAxis ticks={this.ticks()} angle={45} tickFormatter={i => this.tickFormatter(i)}/>
+                        <XAxis ticks={this.ticks()}
+                               angle={45}
+                               tickFormatter={i => this.tickFormatter(i)}
+                               height={70}
+                               tickSize={35}
+                        />
                         <YAxis domain={['dataMin-15', 'dataMax+15']} />
-                        <Tooltip content={this.CustomTooltip} />
-                        <Legend />
+                        <Tooltip content={this.renderTooltip} />
+                        <Legend verticalAlign="top" height={36} content={this.renderLegend}/>
                         <Area type="monotone" dataKey={'close'} stroke="#8884d8" fill="#8884d8" />
                     </AreaChart>
                 </ResponsiveContainer>
-                <div>{this.props.isLoading ? 'Loading...' : ''}</div>
+                {this.props.isLoading ? this.loading() : ''}
             </div>
         );
     }

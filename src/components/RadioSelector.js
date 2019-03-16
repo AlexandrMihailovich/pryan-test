@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { cn } from '@bem-react/classname';
-import './RadioSelector.css'
+import './RadioSelector.scss'
 
 const radio = cn('radio');
 

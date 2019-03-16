@@ -1,0 +1,75 @@
+@import "../scss/mixin";
+/****************************************************
+loading animation
+ */
+.load {
+  position:relative;
+  width:234px;
+  height:28px;
+  margin:auto;
+
+  .load-circle{
+    position:absolute;
+    top:0;
+    background-color:#0082fe;
+    width:28px;
+    height:28px;
+    @include animation-name(bounce_loading);
+    @include animation-duration(1.2s);
+    @include animation-iteration-count(infinite);
+    @include animation-direction(normal);
+    @include transform(scale(0));
+    @include border-radius(19px);
+  }
+  .load-circle_item_1{
+    left:0;
+    @include animation-delay(0.15s);
+  }
+  .load-circle_item_2{
+    left:29px;
+    @include animation-delay(0.30s);
+  }
+  .load-circle_item_3{
+    left:58px;
+    @include animation-delay(0.45s);
+  }
+  .load-circle_item_4{
+    left:88px;
+    @include animation-delay(0.60s);
+  }
+  .load-circle_item_5{
+    left:117px;
+    @include animation-delay(0.75s);
+  }
+  .load-circle_item_6{
+    left:146px;
+    @include animation-delay(0.90s);
+  }
+  .load-circle_item_7{
+    left:175px;
+    @include animation-delay(1.05s);
+  }
+  .load-circle_item_8{
+    left:205px;
+    @include animation-delay(1.20s);
+  }
+
+}
+
+@keyframes bounce_loading{
+  0%{
+    transform:scale(0);
+    background-color:#8884d8;
+  }
+
+  50%{
+    transform:scale(1);
+    background-color:#0082fe;
+  }
+
+  100%{
+    transform:scale(0);
+    background-color:#8884d8;
+    opacity: 0;
+  }
+}
